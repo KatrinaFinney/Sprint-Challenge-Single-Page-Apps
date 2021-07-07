@@ -1,16 +1,35 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import SearchForm from "./SearchForm";
+import styled from 'styled-components';
 
-export default function CharacterList() {
-  // TODO: Add useState to track data from useEffect
 
+
+export default function Characters() {
+  const [data, setData] = useState([]);
+  const [query, setQuery] = useState("");
   useEffect(() => {
-    // TODO: Add API Request here - must run in `useEffect`
-    //  Important: verify the 2nd `useEffect` parameter: the dependancies array!
-  }, []);
-
+    axios
+      .get(`https://rickandmortyapi.com/api/character/`, {
+        
+      })
+      .then(response => {
+        const characters = response.data.results.filter(character =>
+          character.name.toLowerCase().includes(query.toLowerCase())
+        );
+        console.log("Rick and Morty Characters", response);
+        setData(characters);
+      });
+  }, [query]);
+ 
   return (
-    <section className="character-list">
-      <h2>TODO: `array.map()` over your state here!</h2>
-    </section>
+     
+      <div className="spell">
+        <SearchForm />
+       
+        
+      </div>
+    
   );
 }
+
